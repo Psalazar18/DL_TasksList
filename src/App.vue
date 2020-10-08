@@ -1,28 +1,45 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <form @submit.prevent="agregarTarea">
+      <label for="tarea">Inserte una tarea:  </label>
+      <input type="text" v-model="tarea">
+      <button type="submit">Agregar</button>
+    </form>
+    <div>
+      <ul>
+        <li v-for="(task,index) in tareas" :key="index">{{task}} 
+        <button @click="eliminar(index)" class="elimina">☑</button> </li>
+      </ul>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
+  data() {
+    return{
+      tarea: '',
+      tareas: [],
+    }
+  },
+  methods: {
+    agregarTarea(){
+        this.tareas.push(this.tarea);
+        this.tarea = '';
+    },
+    eliminar(valor){
+      let confirmado = confirm("¿Ya realizaste esta tarea?:O")
+      if (confirmado){
+        this.tareas.splice(valor,1);
+        alert("Se eliminó...");
+      }
+    },
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
